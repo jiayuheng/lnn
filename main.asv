@@ -33,12 +33,7 @@ opts.K =6;
 opts.maxblk = 1e7;
 opts.metric = 'eucdist';
 nnparams{2}=opts;
-TG=zeros(10,length(trainLabels));
-for i=1:10
-    idx=find(trainLabels==i);
-    TG(i,idx)=1;
-end
-   
+for i=1:length(trian)
 trainDataTG=[trainData;TG];
 T_G=slnngraph(trainDataTG,[],nnparams);
 sigmalap=.56;
@@ -61,9 +56,9 @@ options.maxIter = 100;
 % [sae1OptTheta, cost] =  minFunc(@(p)saecost(p,inputSize,hiddenSizeL1,lambda,sparsityParam,beta,trainData),sae1Theta,options);% minfunc is a kind of newtown method
 % lap= 0.000020;
 % lap= 1;
-lap= .00001;
+lap= .0;
 
-lap2=.2;
+lap2=.01;
 % lap2=.0;
 
 % beta=0;
