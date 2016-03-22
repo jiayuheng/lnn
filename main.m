@@ -6,7 +6,7 @@ tic
 inputSize = 28 * 28;
 numClasses = 10;
 % set the structure of  of nn
-hiddenSizeL1 = 200;    % Layer 1 Hidden Size
+hiddenSizeL1 = 100;    % Layer 1 Hidden Size
 % hiddenSizeL2 = 64;    % Layer 2 Hidden Size
 sparsityParam = 0.1;   % desired average sparse rato.
 
@@ -21,15 +21,15 @@ addpath(genpath('./minFunc_2012/minFunc'));
 
 load MNIST
 %% debug
-trainData=trainData(:,1:1000);
-trainLabels=trainLabels(1:1000);
+trainData=trainData(:,1:10000);
+trainLabels=trainLabels(1:10000);
 
 trainLabels(trainLabels == 0) = 10; 
 
 %% Laplacian graph
 nnparams=cell(1);
 nnparams{1}='knn';
-opts.K =6; 
+opts.K =4; 
 opts.maxblk = 1e7;
 opts.metric = 'eucdist';
 nnparams{2}=opts;
@@ -51,7 +51,7 @@ Dlap=diag(sum(Wlap,2));
 L=Dlap-Wlap;
 
 %% train first sae or can replace this by rbm of something
-sae1Theta = parainit(hiddenSizeL1, inputSize);
+sae1Theta = parainit(inputSize, hiddenSizeL1, inputSize);
 
 % optimization algorithm
 options = struct;
@@ -61,9 +61,11 @@ options.maxIter = 100;
 % [sae1OptTheta, cost] =  minFunc(@(p)saecost(p,inputSize,hiddenSizeL1,lambda,sparsityParam,beta,trainData),sae1Theta,options);% minfunc is a kind of newtown method
 % lap= 0.000020;
 % lap= 1;
-lap= .00001;
+lap= 0;
 
-lap2=.2;
+% lap2=.2;
+% lap2=.02;
+lap2=.02;
 % lap2=.0;
 
 % beta=0;
